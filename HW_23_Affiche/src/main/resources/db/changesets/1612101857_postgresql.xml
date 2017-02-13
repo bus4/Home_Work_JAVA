@@ -1,0 +1,173 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1701101523" author="albert">
+        <createTable tableName="film">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(256)"/>
+            <column name="description" type="text"/>
+            <column name="rating" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1701101527" author="albert">
+        <createTable tableName="cinema">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(256)"/>
+            <column name="description" type="text"/>
+            <column name="rating" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1701101533" author="albert">
+        <createTable tableName="cinema_comment">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="creationdate" type="timestamp"/>
+            <column name="rating" type="int"/>
+            <column name="text" type="text"/>
+            <column name="cinema_id" type="bigint"/>
+            <column name="suser_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1701101542" author="albert">
+        <createTable tableName="film_comment">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="creationdate" type="timestamp"/>
+            <column name="rating" type="int"/>
+            <column name="text" type="text"/>
+            <column name="film_id" type="bigint"/>
+            <column name="suser_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1701101543" author="albert">
+        <createTable tableName="seance">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="seancedate" type="timestamp"/>
+            <column name="price" type="int"/>
+            <column name="text" type="text"/>
+            <column name="cinema_id" type="bigint"/>
+            <column name="film_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1701101547" author="albert">
+        <createSequence sequenceName="film_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="1701101548" author="albert">
+        <createSequence sequenceName="cinema_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="1701101549" author="albert">
+        <createSequence sequenceName="cinema_comment_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="1701101550" author="albert">
+        <createSequence sequenceName="film_comment_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="1701101551" author="albert">
+        <createSequence sequenceName="seance_seq" startValue="1" incrementBy="1"/>
+    </changeSet>
+
+    <changeSet id="1701101552" author="albert">
+        <createTable tableName="cinemas">
+            <column name="film_id" type="bigint"/>
+            <column name="cinema_id" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1701101553" author="albert">
+        <addPrimaryKey tableName="cinemas" columnNames="film_id,cinema_id"/>
+    </changeSet>
+
+    <changeSet id="1701101555" author="albert">
+        <addForeignKeyConstraint baseTableName="cinemas" baseColumnNames="film_id" constraintName="cinemas_film_fk"
+                                 referencedTableName="film"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="cinemas" baseColumnNames="cinema_id" constraintName="cinemas_cinema_fk"
+                                 referencedTableName="cinema"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1701101558" author="albert">
+        <addForeignKeyConstraint baseTableName="cinema_comment" baseColumnNames="cinema_id" constraintName="cinema_comment_cinema_fk"
+                                 referencedTableName="cinema"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1701101600" author="albert">
+        <addForeignKeyConstraint baseTableName="cinema_comment" baseColumnNames="suser_id" constraintName="cinema_comment_users_fk"
+                                 referencedTableName="suser"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1701101601" author="albert">
+        <addForeignKeyConstraint baseTableName="film_comment" baseColumnNames="film_id" constraintName="film_comment_film_fk"
+                                 referencedTableName="film"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1701101602" author="albert">
+        <addForeignKeyConstraint baseTableName="film_comment" baseColumnNames="suser_id" constraintName="film_comment_users_fk"
+                                 referencedTableName="suser"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1701101603" author="albert">
+        <addForeignKeyConstraint baseTableName="seance" baseColumnNames="cinema_id" constraintName="seance_cinema_fk"
+                                 referencedTableName="cinema"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1701101604" author="albert">
+        <addForeignKeyConstraint baseTableName="seance" baseColumnNames="film_id" constraintName="seance_film_fk"
+                                 referencedTableName="film"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+    <changeSet id="1701101726" author="albert">
+        <renameColumn tableName="suser" oldColumnName="mail" newColumnName="name"/>
+    </changeSet>
+
+    <changeSet id="1701111512" author="albert">
+        <modifyDataType tableName="film_comment" columnName="rating" newDataType="bigint"/>
+    </changeSet>
+
+
+    <changeSet id="1701121106" author="albert">
+        <modifyDataType tableName="cinema_comment" columnName="rating" newDataType="bigint"/>
+    </changeSet>
+
+    <changeSet id="1701131556" author="albert">
+        <dropColumn tableName="seance" columnName="text"/>
+    </changeSet>
+
+
+
+    <!--<changeSet id="1612151516" author="albert">-->
+        <!--<comment>Load roles table</comment>-->
+        <!--<loadUpdateData tableName="role" primaryKey="id" catalogName="${basedir}"-->
+                        <!--file="src/main/resources/db/testdata/roles.csv">-->
+            <!--<column name="id" type="numeric"/>-->
+        <!--</loadUpdateData>-->
+    <!--</changeSet>-->
+
+
+</databaseChangeLog>
